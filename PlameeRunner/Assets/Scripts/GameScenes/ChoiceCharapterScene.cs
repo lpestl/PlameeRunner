@@ -35,15 +35,16 @@ public class ChoiceCharapterScene : IState<GameSceneManager>
 #region State interface metods
     public void EnterState(GameSceneManager _owner)
     {
-        DebugLog.instance.Print("Load Choice Charapter scene");
+        EchoLog.Print("----------------------");
+        EchoLog.Print("Load Choice Charapter scene");
         _owner.LoadPrefabs();
-        UiManager.instance.FadeOut();
+        GameEventHandlers.FadeOut();
     }
 
     public void ExitState(GameSceneManager _owner)
     {
         _owner.DestroySceneResources();
-        DebugLog.instance.Print("Destroy Choice Charapter scene");
+        EchoLog.Print("Destroy Choice Charapter scene");
     }
 
     public void UpdateState(GameSceneManager _owner)

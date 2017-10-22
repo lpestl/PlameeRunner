@@ -1,5 +1,6 @@
 ﻿namespace StateStuff
 {
+#region Implementing universal State Machine
     public class StateMachine<T>
     {
         public IState<T> currentState { get; private set; }
@@ -25,11 +26,14 @@
                 currentState.UpdateState(Owner);
         }
     }
+    #endregion
 
+#region State interface
     public interface IState<T>
     {
         void EnterState(T _owner);
         void ExitState(T _owner);
         void UpdateState(T _owner);
     }
+#endregion
 }

@@ -35,15 +35,16 @@ public class GamePlayScene : IState<GameSceneManager>
 #region State interface metods
     public void EnterState(GameSceneManager _owner)
     {
-        DebugLog.instance.Print("Load Gameplay scene");
+        EchoLog.Print("----------------------");
+        EchoLog.Print("Load Gameplay scene");
         _owner.LoadPrefabs();
-        UiManager.instance.FadeOut();
+        GameEventHandlers.FadeOut();
     }
 
     public void ExitState(GameSceneManager _owner)
     {
         _owner.DestroySceneResources();
-        DebugLog.instance.Print("Destroy Gameplay scene");
+        EchoLog.Print("Destroy Gameplay scene");
     }
 
     public void UpdateState(GameSceneManager _owner)

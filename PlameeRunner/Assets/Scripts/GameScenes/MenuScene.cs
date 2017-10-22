@@ -32,15 +32,16 @@ public class MenuScene : IState<GameSceneManager> {
 #region State interface metods
     public void EnterState(GameSceneManager _owner)
     {
-        DebugLog.instance.Print("Load Menu scene");
+        EchoLog.Print("----------------------");
+        EchoLog.Print("Load Menu scene");
         _owner.LoadPrefabs();
-        UiManager.instance.FadeOut();
+        GameEventHandlers.FadeOut();
     }
 
     public void ExitState(GameSceneManager _owner)
     {
         _owner.DestroySceneResources();
-        DebugLog.instance.Print("Destroy Menu scene");
+        EchoLog.Print("Destroy Menu scene");
     }
 
     public void UpdateState(GameSceneManager _owner)

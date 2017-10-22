@@ -61,14 +61,14 @@ public class TouchController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             isTouch = true;
-            if (OnTouchDown != null) TouchController.OnTouchDown(Input.mousePosition);
+            if (OnTouchDown != null) TouchController.TouchDown(Input.mousePosition);
             lastTouch = Input.mousePosition;
         }
 
         // Call event OnTouchMove
         if (isTouch)
         {
-            if (OnTouchMove != null) TouchController.OnTouchMove(Input.mousePosition, Input.mousePosition - lastTouch);
+            if (OnTouchMove != null) TouchController.TouchMove(Input.mousePosition, Input.mousePosition - lastTouch);
             lastTouch = Input.mousePosition;
         }
 
@@ -76,7 +76,7 @@ public class TouchController : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             isTouch = false;
-            if (OnTouchUp != null) TouchController.OnTouchUp(Input.mousePosition);
+            if (OnTouchUp != null) TouchController.TouchUp(Input.mousePosition);
         }
 #else
                 
@@ -85,13 +85,13 @@ public class TouchController : MonoBehaviour
             switch(Input.GetTouch(0).phase)
             {
                 case TouchPhase.Began:
-                    if (OnTouchDown != null) TouchController.OnTouchDown(Input.GetTouch(0).position);
+                    if (OnTouchDown != null) TouchController.TouchDown(Input.GetTouch(0).position);
                     break;
                 case TouchPhase.Moved:
-                    if (OnTouchMove != null) TouchController.OnTouchMove(Input.GetTouch(0).position, Input.GetTouch(0).deltaPosition);
+                    if (OnTouchMove != null) TouchController.TouchMove(Input.GetTouch(0).position, Input.GetTouch(0).deltaPosition);
                     break;
                 case TouchPhase.Ended:
-                    if (OnTouchUp != null) TouchController.OnTouchUp(Input.GetTouch(0).position);
+                    if (OnTouchUp != null) TouchController.TouchUp(Input.GetTouch(0).position);
                     break;
                 default:
                     break;
