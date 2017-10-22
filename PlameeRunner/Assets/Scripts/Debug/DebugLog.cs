@@ -15,6 +15,7 @@ public class DebugLog : MonoBehaviour {
 
     void Awake()
     {
+        messages = new List<string>();
         if (instance == null)
         {
             instance = this;
@@ -30,7 +31,6 @@ public class DebugLog : MonoBehaviour {
 
     void Start()
     {
-        messages = new List<string>();
         windowRect = new Rect(Screen.width - (float) Screen.width / 4.0f , 10, Screen.width / 4.0f - 10, Screen.height - 20);
     }
     
