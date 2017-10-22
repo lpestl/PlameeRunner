@@ -87,7 +87,6 @@ public class GameSceneManager : MonoBehaviour {
 
         foreach (var lr in loadableResources)
         {
-            //DebugLog.instance.Print(lr.forScene.ToString());
             if (lr.forScene == currentGameScene)
             {
                 foreach (var res in lr.prefabs)
@@ -107,5 +106,20 @@ public class GameSceneManager : MonoBehaviour {
             loadedResourceInstances.RemoveAt(i);
         }
         DebugLog.instance.Print("[INFO] loadedResources not destroyed: " + loadedResourceInstances.Count);
+    }
+
+    private void OnEnable()
+    {
+        MenuUiManager.OnClickStart += OnClickStart;
+    }
+
+    private void OnDisable()
+    {
+        MenuUiManager.OnClickStart -= OnClickStart;
+    }
+
+    private void OnClickStart()
+    {
+        ChangeSceneWithFade(GameScene.CHOICE_CHAREPTER);
     }
 }
