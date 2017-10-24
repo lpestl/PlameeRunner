@@ -7,23 +7,28 @@ namespace ObjectPoolStuff
 
     public class ObjectPool
     {
-        public int Capacity = 100;
+        public int Capacity { get; }
 
         List<GameObject> pooledObjects = new List<GameObject>();
         
+        public ObjectPool(int capacity)
+        {
+            Capacity = capacity;
+        }
+
         // Use this for initialization
         public bool PushObject(GameObject pooledObject)
         {
-            if (pooledObjects.Count == 100)
+            if (pooledObjects.Count > Capacity)
             {
-                return false;
+                Debug.Log("the pool is full.");
             }
-            else
-            {
-                pooledObject.SetActive(false);
-                pooledObjects.Add(pooledObject);
-                return true;
-            }
+            //else
+            //{
+            pooledObjects.Add(pooledObject);
+            pooledObject.SetActive(false);
+            return true;
+            //}
         }
 
         public GameObject PopObject()

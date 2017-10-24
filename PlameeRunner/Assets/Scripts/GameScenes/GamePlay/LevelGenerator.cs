@@ -34,10 +34,16 @@ public class LevelGenerator : MonoBehaviour {
     private List<float> rangeChanceList;
     private ObjectPool[] pools;
 
+    private Vector3 destroyDistanceToCamera;
+    private Vector3 generateDistanceToCamera;
+
 	// Use this for initialization
 	void Start () {
-        generatorPoint.parent = Camera.main.transform;
-        destroyerPoint.parent = Camera.main.transform;
+        //generatorPoint.parent = Camera.main.transform;
+        //destroyerPoint.parent = Camera.main.transform;
+        generateDistanceToCamera = Camera.main.transform.position - generatorPoint.position;
+        destroyDistanceToCamera = Camera.main.transform.position - destroyerPoint.position;
+
 
         rangeChanceList = new List<float>();
         pools = new ObjectPool[worldsPartPatterns[worldIndex].groundPartList.Count];
@@ -49,11 +55,14 @@ public class LevelGenerator : MonoBehaviour {
             sumChanse += part.chance;
             rangeChanceList.Add(sumChanse);
 
-            pools[i].Capacity = (int)Mathf.Round(100.0f * part.chance);
+            pools[i] = new ObjectPool((int)Mathf.Ceil((generatorPoint.transform.position.x - destroyerPoint.transform.position.x) * part.chance));
+            //pools[i].Capacity = (int)Mathf.Round(100.0f * part.chance);
             i++;
         }
 
         generatedGroundPutPool();
+
+        GameEventHandlers.FadeOut();
     }
 
     void generatedGroundPutPool()
@@ -73,6 +82,9 @@ public class LevelGenerator : MonoBehaviour {
     }
     // Update is called once per frame
     void Update () {
+        generatorPoint.position = Camera.main.transform.position - generateDistanceToCamera;
+        destroyerPoint.position = Camera.main.transform.position - destroyDistanceToCamera;
+
         generateWorldGround();
         destroyTraversedGround();
     }
@@ -83,8 +95,10 @@ public class LevelGenerator : MonoBehaviour {
         {
             if (child.position.x < destroyerPoint.position.x)
             {
-                Destroy(child.gameObject);
-                break;
+                child.transform.parent = objectPoolTransform;
+                var id = child.GetComponent<TypeID>().id;
+                pools[id].PushObject(child.gameObject);
+                //break;
             }
         }
     }
@@ -112,7 +126,12 @@ public class LevelGenerator : MonoBehaviour {
             // Choice of a random part of ground in view of the chances of falling.
             int indexPart = ChoiceRandomPart();
 
-            var newGround = Instantiate(worldsPartPatterns[worldIndex].groundPartList[indexPart].groundPart) as GameObject;
+            GameObject newGround = pools[indexPart].PopObject();
+            if (newGround == null)
+            {
+                newGround = Instantiate(worldsPartPatterns[worldIndex].groundPartList[indexPart].groundPart) as GameObject;
+                newGround.AddComponent<TypeID>().id = indexPart;
+            }
             newGround.transform.parent = groundUsed;
             newGround.transform.position = new Vector3(generatorCursor.position.x,
                                                        newGround.transform.position.y,
