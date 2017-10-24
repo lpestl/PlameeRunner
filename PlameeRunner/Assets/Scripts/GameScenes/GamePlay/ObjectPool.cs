@@ -7,7 +7,7 @@ namespace ObjectPoolStuff
 
     public class ObjectPool
     {
-        public int Capacity { get; }
+        public int Capacity;
 
         List<GameObject> pooledObjects = new List<GameObject>();
         

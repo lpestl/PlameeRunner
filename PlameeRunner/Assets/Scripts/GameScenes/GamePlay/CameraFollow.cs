@@ -30,10 +30,10 @@ public class CameraFollow : MonoBehaviour {
 
     private void OnDisable()
     {
-        Camera.main.transform.position = startCamPosition.position;
-        Camera.main.transform.eulerAngles = startCamPosition.eulerAngles;
-        Camera.main.transform.localScale = startCamPosition.localScale;
+        //Camera.main.transform.position = startCamPosition.position;
+        //Camera.main.transform.eulerAngles = startCamPosition.eulerAngles;
+        //Camera.main.transform.localScale = startCamPosition.localScale;
 
-        Camera.main.orthographicSize = nullSpeedOrthoSize;
+        //Camera.main.orthographicSize = nullSpeedOrthoSize;
     }
 }

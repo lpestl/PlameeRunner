@@ -4,4 +4,5 @@ using UnityEngine;
 
 public class TypeID : MonoBehaviour {
     public int id;
+    //public float width;
 }
