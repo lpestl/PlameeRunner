@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour {
         if (showInfo)
         {
             GUI.Label(new Rect(25, 25, Screen.width - 50, 25), "MaxSpeedX = " + maxSpeedX.ToString());
-            GUI.Label(new Rect(25, 50, Screen.width - 50, 25), "Rigidbody Speed = " + rigidbodyPlayer.velocity.ToString());
+            GUI.Label(new Rect(25, 50, Screen.width - 50, 25), "Speed = " + rigidbodyPlayer.velocity.ToString());
             //GUI.Label(new Rect(25, 50, Screen.width - 50, 25), "Calculate Speed = " + calculateSpeed.ToString());
             GUI.Label(new Rect(25, 75, Screen.width - 50, 25), "Accelerate = " + currentAccel.ToString());
         }

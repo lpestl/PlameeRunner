@@ -115,7 +115,7 @@ public class GameSceneManager : MonoBehaviour {
 #region Actions on events
     private void ClickStart()
     {
-        ChangeSceneWithFade(GameScene.CHOICE_CHAREPTER);
+        ChangeSceneWithFade(GameScene.GAMEPLAY);
     }
 #endregion
 }

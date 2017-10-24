@@ -20,19 +20,12 @@ public class CameraFollow : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
         Camera.main.transform.position = new Vector3(
             target.transform.position.x + deltaFollowPosition.x,
             Mathf.Lerp(Camera.main.transform.position.y, target.transform.position.y + deltaFollowPosition.y, Time.deltaTime),
             target.transform.position.z + deltaFollowPosition.z);
-
-        //Camera.main.transform.position = target.transform.position + deltaFollowPosition;
-
-        //Camera.main.transform.position = new Vector3(target.transform.position.x + deltaFollowPosition.x, 
-        //                                             Camera.main.transform.position.y, 
-        //                                             target.transform.position.z + deltaFollowPosition.z);
-
-        Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, nullSpeedOrthoSize + target.getCurrentSpeed().x / 10, Time.deltaTime);
+        
+        Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, nullSpeedOrthoSize + target.getCurrentSpeed().x / 5, Time.deltaTime);
 	}
 
     private void OnDisable()
