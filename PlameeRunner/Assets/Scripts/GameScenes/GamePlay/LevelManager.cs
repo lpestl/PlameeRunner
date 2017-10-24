@@ -6,10 +6,24 @@ using ObjectPoolStuff;
 public class LevelManager : MonoBehaviour
 {
     public int worldIndex = 0;
+    public int charapterIndex = 0;
 
     public List<Generator> generators;
+    public List<GameObject> charapterList;
+
+    private GameObject player;
+
+    void Awake()
+    {
+        //foreach(var gen in generators)
+        //{
+        //    gen.SetWorldIndex(worldIndex);
+        //    gen.CreatPools();
+        //}    
+    }
+
     // Use this for initialization
-	void Start () {
+    void Start () {
         
     }
 
@@ -18,5 +32,27 @@ public class LevelManager : MonoBehaviour
     void Update () {
         
     }
-    
+
+    private void OnEnable()
+    {
+        foreach (var gen in generators)
+        {
+            gen.SetWorldIndex(worldIndex);
+            gen.CreatPools();
+        }
+
+        player = Instantiate(charapterList[charapterIndex], transform) as GameObject;
+
+        GetComponent<CameraFollow>().SetTarget(player);
+    }
+
+    private void OnDisable()
+    {
+        Destroy(player);
+
+        foreach (var gen in generators)
+        {
+            gen.DestroyPools();
+        }
+    }
 }

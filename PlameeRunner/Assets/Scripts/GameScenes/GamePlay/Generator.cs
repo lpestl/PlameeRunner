@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Generator : MonoBehaviour
 {
-    public int worldIndex = 0;
+    private int worldIndex = 0;
 
     public Transform generatePoint;
     public Transform destroyPoint;
@@ -20,10 +20,10 @@ public class Generator : MonoBehaviour
     private List<float> rangeChanceList;
     private ObjectPool[] pools;
 
-    //private Vector3 destroyDistanceToCamera;
+    //private Vector3 start;
     //private Vector3 generateDistanceToCamera;
 
-    private void OnEnable()
+    public void CreatPools()
     {
         // Create pool Transform objects
         activatePoolGameObject = new GameObject();
@@ -61,7 +61,7 @@ public class Generator : MonoBehaviour
             sumChance += part.chance;
             rangeChanceList.Add(sumChance);
 
-            int capacity = (int)Mathf.Ceil((generatePoint.transform.position.x - destroyPoint.transform.position.x) * part.chance);
+            int capacity = (int)Mathf.Ceil((generatePoint.transform.position.x - destroyPoint.transform.position.x) / part.width * part.chance);
             pools[i] = new ObjectPool(capacity);
 
             i++;
@@ -70,13 +70,22 @@ public class Generator : MonoBehaviour
         InstantiateInPool();
     }
 
-    private void OnDisable()
+    public void DestroyPools()
     {
         rangeChanceList.Clear();
 
         Destroy(cursorGameObject);
 
+        foreach (Transform child in objectPoolGameObject.transform)
+        {
+            Destroy(child.gameObject);
+        }
         Destroy(objectPoolGameObject);
+
+        foreach (Transform child in activatePoolGameObject.transform)
+        {
+            Destroy(child.gameObject);
+        }
         Destroy(activatePoolGameObject);
 
     }
@@ -173,11 +182,16 @@ public class Generator : MonoBehaviour
 
             if (!emptyPlace)
             {
-                var dynamicScript = newPart.AddComponent<TypeID>();
+                //var dynamicScript = newPart.AddComponent<TypeID>();
                 newPart.transform.parent = activatePoolGameObject.transform;
                 newPart.transform.position = new Vector3(cursorGameObject.transform.position.x,
                                                          newPart.transform.position.y,
                                                          newPart.transform.position.z);
+                //newPart.transform.eulerAngles = Vector3.zero;
+                //if (newPart.GetComponent<Rigidbody>() != null)
+                //{
+                //    newPart.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                //}
             }
 
             //var scaleCurr = emptyPlace ? 1 : worldPartList[worldIndex].loadeblePartList[indexPart].objectPart.transform.localScale.x;
@@ -185,5 +199,10 @@ public class Generator : MonoBehaviour
                                                               cursorGameObject.transform.position.y,
                                                               cursorGameObject.transform.position.z);
         }
+    }
+
+    public void SetWorldIndex(int index)
+    {
+        worldIndex = index;
     }
 }

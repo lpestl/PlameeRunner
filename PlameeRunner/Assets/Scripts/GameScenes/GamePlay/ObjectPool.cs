@@ -22,6 +22,7 @@ namespace ObjectPoolStuff
             if (pooledObjects.Count > Capacity)
             {
                 Debug.Log("the pool is full.");
+                Capacity++;
             }
             //else
             //{

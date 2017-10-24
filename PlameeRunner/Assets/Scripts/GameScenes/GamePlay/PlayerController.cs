@@ -10,10 +10,13 @@ public class PlayerController : MonoBehaviour {
     //private Vector3 currentSpeed = Vector3.zero;
     public Vector3 acceleration = new Vector3(10.0f, 0.0f, 0.0f);
     public Vector3 gravityAccel = new Vector3(0.0f, -9.8f, 0.0f);
-    private Vector3 currentAccel;
+    protected Vector3 currentAccel;
     public Vector3 jumpForce = new Vector3(0.0f, 10.0f, 0.0f);
 
     public LayerMask groundMask;
+    public LayerMask obstacleMask;
+
+    public float dieY = -15.0f;
 
     public bool underfoot = false;
     private Rigidbody rigidbodyPlayer;
@@ -24,6 +27,7 @@ public class PlayerController : MonoBehaviour {
     void Start () {
         rigidbodyPlayer = GetComponent<Rigidbody>();
         currentAccel = acceleration + gravityAccel;
+        ChangeColor(Color.white);
     }
 	
 	// Update is called once per frame
@@ -51,10 +55,21 @@ public class PlayerController : MonoBehaviour {
 
         //rigidbodyPlayer.velocity = calculateSpeed;
 
+        CalculateAcceleration();
+
+        if (transform.position.y < dieY)
+        {
+            EchoLog.Print("[OPS] I fell into a hole.");
+        }
+    }
+
+    public virtual void CalculateAcceleration()
+    {
         if (rigidbodyPlayer.velocity.x >= maxSpeedX)
         {
             currentAccel = gravityAccel;
-        } else
+        }
+        else
         {
             currentAccel = acceleration + gravityAccel;
         }
@@ -67,8 +82,24 @@ public class PlayerController : MonoBehaviour {
         if (collosionLayer == groundMask)
         {
             underfoot = true;
-
+            ChangeColor(Color.green);
         }
+
+        if (collosionLayer == obstacleMask)
+        {
+            EchoLog.Print("[OPS] Touch obstacle " + collision.gameObject.name);
+            ChangeColor(Color.red);
+        }
+    }
+
+    public virtual void ChangeColor(Color color)
+    {
+        var rend = transform.GetComponent<MeshRenderer>();
+        if (rend.material.color != color)
+        {
+            rend.material.color = color;
+        }
+
     }
 
     private void OnCollisionExit(Collision collision)
@@ -78,6 +109,7 @@ public class PlayerController : MonoBehaviour {
         if (collosionLayer == groundMask)
         {
             underfoot = false;
+            ChangeColor(Color.yellow);
         }
     }
 
@@ -87,6 +119,7 @@ public class PlayerController : MonoBehaviour {
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             underfoot = true;
+            ChangeColor(Color.green);
         }
     }
 
