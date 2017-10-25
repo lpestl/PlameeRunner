@@ -8,9 +8,9 @@ public class UIManager : MonoBehaviour {
     public Fade fade;
     public float durationFade = 1.0f;
 
-    #endregion
+#endregion
 
-    #region Init manager
+#region Init manager
     void Start()
     {
         FadeOut();

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+/// <summary>
+/// Data structure for display and editing in the Unity Editor.
+/// </summary>
 [System.Serializable]
 public class WorldLoadablePart {
 

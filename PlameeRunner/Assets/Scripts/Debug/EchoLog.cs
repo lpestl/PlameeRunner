@@ -37,7 +37,7 @@ public class EchoLog : MonoBehaviour {
     {
         messages.Add(msg);
     }
-    #endregion
+#endregion
 
 #region Print log message in old gui
     public int maxCountMessage = 100;

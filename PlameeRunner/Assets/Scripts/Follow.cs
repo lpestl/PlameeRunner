@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Follow : MonoBehaviour {
+    // NOTE: Not very good implementation of following the camera, but in any case, it's simple and works.
+#region Easy Crutch 
     private Transform target;
 	private Vector3 deltaPos;
 
@@ -16,4 +18,5 @@ public class Follow : MonoBehaviour {
 	void Update () {
         transform.position = target.position - deltaPos;
 	}
+#endregion
 }

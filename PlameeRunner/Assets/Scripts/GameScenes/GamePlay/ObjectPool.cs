@@ -4,7 +4,9 @@ using UnityEngine;
 
 namespace ObjectPoolStuff
 {
-
+    /// <summary>
+    /// NOTE: My implementation of a simple object pool.
+    /// </summary>
     public class ObjectPool
     {
         public int Capacity;
@@ -15,8 +17,7 @@ namespace ObjectPoolStuff
         {
             Capacity = capacity;
         }
-
-        // Use this for initialization
+        
         public bool PushObject(GameObject pooledObject)
         {
             if (pooledObjects.Count > Capacity)
@@ -24,12 +25,10 @@ namespace ObjectPoolStuff
                 Debug.Log("the pool is full.");
                 Capacity++;
             }
-            //else
-            //{
+
             pooledObjects.Add(pooledObject);
             pooledObject.SetActive(false);
             return true;
-            //}
         }
 
         public GameObject PopObject()

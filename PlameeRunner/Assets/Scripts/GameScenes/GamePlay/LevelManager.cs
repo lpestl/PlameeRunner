@@ -5,6 +5,7 @@ using ObjectPoolStuff;
 
 public class LevelManager : MonoBehaviour
 {
+#region Properties
     public int worldIndex = 0;
     public int charapterIndex = 0;
 
@@ -12,15 +13,13 @@ public class LevelManager : MonoBehaviour
     public List<GameObject> charapterList;
 
     private GameObject player;
-    
+#endregion
+
+#region Unity methods
     void Start () {
         LevelEventSystem.StartLevel();
     }
     
-    void Update () {
-        
-    }
-
     private void OnEnable()
     {
         charapterIndex = PlayerPrefs.GetInt("Charapter", 0);
@@ -46,4 +45,5 @@ public class LevelManager : MonoBehaviour
             gen.DestroyPools();
         }
     }
+#endregion
 }

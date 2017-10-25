@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
+    #region Properties
     public bool showInfo = true;
     public float maxSpeedX = 50.0f;
     
@@ -19,19 +20,17 @@ public class PlayerController : MonoBehaviour {
 
     public bool underfoot = false;
     private Rigidbody rigidbodyPlayer;
+    #endregion
 
-    //private Vector3 calculateSpeed = Vector3.zero;
-
-    // Use this for initialization
+    // TODO lpestl: In the dead code there are remnants of physics without rigidbodi. It will be necessary to bring to mind.
+    #region Start and Update
     void Start () {
         rigidbodyPlayer = GetComponent<Rigidbody>();
         currentAccel = acceleration + gravityAccel;
         ChangeColor(Color.white);
     }
 	
-	// Update is called once per frame
 	void Update () {
-        //var lastPos = transform.position;
         // Rigidbody, I use only for the correct stinging and collision.
         // Speed for player's rigidbodi, we rely only on gravity.
         // The formula for the speed of acceleration is used: v = at
@@ -62,7 +61,9 @@ public class PlayerController : MonoBehaviour {
             LevelEventSystem.GameOver();
         }
     }
+    #endregion
 
+    #region virtual methods for the heir.
     public virtual void CalculateAcceleration()
     {
         if (rigidbodyPlayer.velocity.x >= maxSpeedX)
@@ -75,9 +76,19 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    public virtual void ChangeColor(Color color)
+    {
+        var rend = transform.GetComponent<MeshRenderer>();
+        if (rend.material.color != color)
+        {
+            rend.material.color = color;
+        }
+    }
+    #endregion
+
+    #region Check collisions
     void OnCollisionEnter(Collision collision)
     {
-        //Debug.Log("Collision Enter");
         var collosionLayer = LayerMask.GetMask(LayerMask.LayerToName(collision.collider.gameObject.layer));
         if (collosionLayer == groundMask)
         {
@@ -92,20 +103,9 @@ public class PlayerController : MonoBehaviour {
             LevelEventSystem.GameOver();
         }
     }
-
-    public virtual void ChangeColor(Color color)
-    {
-        var rend = transform.GetComponent<MeshRenderer>();
-        if (rend.material.color != color)
-        {
-            rend.material.color = color;
-        }
-
-    }
-
+    
     private void OnCollisionExit(Collision collision)
     {
-        //Debug.Log("Collision Exit");
         var collosionLayer = LayerMask.GetMask(LayerMask.LayerToName(collision.collider.gameObject.layer));
         if (collosionLayer == groundMask)
         {
@@ -116,59 +116,32 @@ public class PlayerController : MonoBehaviour {
 
     private void OnCollisionStay(Collision collision)
     {
-        //Debug.Log("Collision Stay");
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             underfoot = true;
             ChangeColor(Color.green);
         }
     }
+    #endregion
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    Debug.Log("Trigger enter");
-    //    var collosionLayer = LayerMask.GetMask(LayerMask.LayerToName(other.gameObject.layer));
-    //    if (collosionLayer == groundMask)
-    //    {
-    //        underfoot = true;
-    //        calculateSpeed = new Vector3(calculateSpeed.x, 0, calculateSpeed.z);
-    //        currentAccel = new Vector3(currentAccel.x, 0, currentAccel.z);
-    //    }
-    //}
-
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    Debug.Log("Trigger exit");
-    //    var collosionLayer = LayerMask.GetMask(LayerMask.LayerToName(other.gameObject.layer));
-    //    if (collosionLayer == groundMask)
-    //    {
-    //        underfoot = false;
-    //    }
-    //}
-
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    Debug.Log("Trigger stay");
-    //    var collosionLayer = LayerMask.GetMask(LayerMask.LayerToName(other.gameObject.layer));
-    //    if (collosionLayer == groundMask)
-    //    {
-    //        underfoot = true;
-    //        if (calculateSpeed.y < 0) calculateSpeed = new Vector3(calculateSpeed.x, 0, calculateSpeed.z);
-    //        currentAccel = new Vector3(currentAccel.x, 0, currentAccel.z);
-    //    }
-    //}
-
+#region Show Info using old gui
     private void OnGUI()
     {
         if (showInfo)
         {
             GUI.Label(new Rect(25, 25, Screen.width - 50, 25), "MaxSpeedX = " + maxSpeedX.ToString());
             GUI.Label(new Rect(25, 50, Screen.width - 50, 25), "Speed = " + rigidbodyPlayer.velocity.ToString());
-            //GUI.Label(new Rect(25, 50, Screen.width - 50, 25), "Calculate Speed = " + calculateSpeed.ToString());
             GUI.Label(new Rect(25, 75, Screen.width - 50, 25), "Accelerate = " + currentAccel.ToString());
         }
     }
 
+    public Vector3 getCurrentSpeed()
+    {
+        return rigidbodyPlayer.velocity;
+    }
+#endregion
+
+    #region Subscrube on tap
     private void OnEnable()
     {
         TouchController.OnTouchDown += OnTap;
@@ -183,20 +156,10 @@ public class PlayerController : MonoBehaviour {
     {
         if (underfoot)
         {
-            //Debug.Log("Tap");
             rigidbodyPlayer.velocity = new Vector3(rigidbodyPlayer.velocity.x + jumpForce.x,
                                                    rigidbodyPlayer.velocity.y + jumpForce.y,
                                                    rigidbodyPlayer.velocity.z + jumpForce.z);
-
-            //calculateSpeed = new Vector3(calculateSpeed.x + jumpForce.x,
-            //                             calculateSpeed.y/* + jumpForce.y*/,
-            //                             calculateSpeed.z + jumpForce.z);
         }
     }
-
-    public Vector3 getCurrentSpeed()
-    {
-        //return calculateSpeed;
-        return rigidbodyPlayer.velocity;
-    }
+    #endregion
 }

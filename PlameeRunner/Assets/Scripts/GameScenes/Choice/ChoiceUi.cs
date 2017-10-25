@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ChoiceUi : MonoBehaviour {
+#region public UI elements
     public RectTransform targetCharapter;
     public RectTransform targetLocation;
 
@@ -11,9 +12,10 @@ public class ChoiceUi : MonoBehaviour {
 
     public List<RectTransform> charapterButtons;
     public List<RectTransform> worldButtons;
+#endregion
 
-	// Use this for initialization
-	void Start () {
+#region Init using PlayerPref
+    void Start () {
         var indexCharapter = PlayerPrefs.GetInt("Charapter", 0);
         var indexWorld = PlayerPrefs.GetInt("World", 0);
         
@@ -23,12 +25,9 @@ public class ChoiceUi : MonoBehaviour {
         targetCharapter.gameObject.SetActive(false);
         targetLocation.gameObject.SetActive(false);
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    #endregion
 
+#region Buttons callbacks
     public void OnClickCube()
     {
         Debug.Log("Cube");
@@ -116,7 +115,9 @@ public class ChoiceUi : MonoBehaviour {
         Debug.Log("Play");
         PlayInWorld();
     }
+    #endregion
 
+#region Event for GameManager
     public delegate void EventHandlerClickButton();
     public static EventHandlerClickButton OnClickPlayInWorld;
 
@@ -127,4 +128,5 @@ public class ChoiceUi : MonoBehaviour {
             OnClickPlayInWorld();
         }
     }
+#endregion
 }
