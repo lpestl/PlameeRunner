@@ -20,6 +20,7 @@ public class Generator : MonoBehaviour
     private List<float> rangeChanceList;
     private ObjectPool[] pools;
 
+    private bool beforeStart;
     //private Vector3 start;
     //private Vector3 generateDistanceToCamera;
 
@@ -46,9 +47,8 @@ public class Generator : MonoBehaviour
                                                           cursorGameObject.transform.position.y,
                                                           cursorGameObject.transform.position.z);
 
-        // Keep the distance to the camera.
-        //generateDistanceToCamera = Camera.main.transform.position - generatePoint.position;
-        //destroyDistanceToCamera = Camera.main.transform.position - destroyPoint.position;
+        // Before start generator loading onli first part object
+        beforeStart = true;
 
         // New arrays
         rangeChanceList = new List<float>();
@@ -159,7 +159,7 @@ public class Generator : MonoBehaviour
         if (cursorGameObject.transform.position.x < generatePoint.position.x)
         {
             // Choice of a random part of ground in view of the chances of falling.
-            int indexPart = ChoiceRandomPart();
+            int indexPart = beforeStart ? 0: ChoiceRandomPart();
 
             bool emptyPlace = false;
             //float scaleCurr = 1.0f;
@@ -204,5 +204,20 @@ public class Generator : MonoBehaviour
     public void SetWorldIndex(int index)
     {
         worldIndex = index;
+    }
+
+    private void OnEnable()
+    {
+        LevelEventSystem.OnStartLevel += OnStartLevel;
+    }
+
+    private void OnDisable()
+    {
+        LevelEventSystem.OnStartLevel -= OnStartLevel;
+    }
+
+    private void OnStartLevel()
+    {
+        beforeStart = false;
     }
 }

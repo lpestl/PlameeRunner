@@ -24,7 +24,7 @@ public class LevelManager : MonoBehaviour
 
     // Use this for initialization
     void Start () {
-        
+        LevelEventSystem.StartLevel();
     }
 
     //
@@ -35,6 +35,9 @@ public class LevelManager : MonoBehaviour
 
     private void OnEnable()
     {
+        charapterIndex = PlayerPrefs.GetInt("Charapter", 0);
+        worldIndex = PlayerPrefs.GetInt("World", 0);
+
         foreach (var gen in generators)
         {
             gen.SetWorldIndex(worldIndex);

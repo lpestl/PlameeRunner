@@ -104,18 +104,25 @@ public class GameSceneManager : MonoBehaviour {
     private void OnEnable()
     {
         MenuManager.OnClickStart += ClickStart;
+        ChoiceUi.OnClickPlayInWorld += PlayWorld;
     }
 
     private void OnDisable()
     {
         MenuManager.OnClickStart -= ClickStart;
+        ChoiceUi.OnClickPlayInWorld -= PlayWorld;
     }
 #endregion
 
 #region Actions on events
     private void ClickStart()
     {
+        ChangeSceneWithFade(GameScene.CHOICE_CHAREPTER);
+    }
+
+    private void PlayWorld()
+    {
         ChangeSceneWithFade(GameScene.GAMEPLAY);
     }
-#endregion
+    #endregion
 }

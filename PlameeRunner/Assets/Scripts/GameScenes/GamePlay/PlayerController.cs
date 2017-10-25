@@ -6,8 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
     public bool showInfo = true;
     public float maxSpeedX = 50.0f;
-
-    //private Vector3 currentSpeed = Vector3.zero;
+    
     public Vector3 acceleration = new Vector3(10.0f, 0.0f, 0.0f);
     public Vector3 gravityAccel = new Vector3(0.0f, -9.8f, 0.0f);
     protected Vector3 currentAccel;
@@ -60,6 +59,7 @@ public class PlayerController : MonoBehaviour {
         if (transform.position.y < dieY)
         {
             EchoLog.Print("[OPS] I fell into a hole.");
+            LevelEventSystem.GameOver();
         }
     }
 
@@ -89,6 +89,7 @@ public class PlayerController : MonoBehaviour {
         {
             EchoLog.Print("[OPS] Touch obstacle " + collision.gameObject.name);
             ChangeColor(Color.red);
+            LevelEventSystem.GameOver();
         }
     }
 
