@@ -105,12 +105,18 @@ public class GameSceneManager : MonoBehaviour {
     {
         MenuManager.OnClickStart += ClickStart;
         ChoiceUi.OnClickPlayInWorld += PlayWorld;
+        LevelEventSystem.OnRetryLevel += RetryLevel;
+        LevelEventSystem.OnBackMenu += BackMenu;
+        MenuManager.OnClickExit += ExitApp;
     }
 
     private void OnDisable()
     {
         MenuManager.OnClickStart -= ClickStart;
         ChoiceUi.OnClickPlayInWorld -= PlayWorld;
+        LevelEventSystem.OnRetryLevel -= RetryLevel;
+        LevelEventSystem.OnBackMenu -= BackMenu;
+        MenuManager.OnClickExit -= ExitApp;
     }
 #endregion
 
@@ -123,6 +129,21 @@ public class GameSceneManager : MonoBehaviour {
     private void PlayWorld()
     {
         ChangeSceneWithFade(GameScene.GAMEPLAY);
+    }
+
+    private void RetryLevel()
+    {
+        ChangeSceneWithFade(GameScene.CHOICE_CHAREPTER);
+    }
+
+    private void BackMenu()
+    {
+        ChangeSceneWithFade(GameScene.MENU);
+    }
+
+    private void ExitApp()
+    {
+        Application.Quit();
     }
     #endregion
 }

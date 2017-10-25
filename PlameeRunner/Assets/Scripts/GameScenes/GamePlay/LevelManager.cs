@@ -12,23 +12,11 @@ public class LevelManager : MonoBehaviour
     public List<GameObject> charapterList;
 
     private GameObject player;
-
-    void Awake()
-    {
-        //foreach(var gen in generators)
-        //{
-        //    gen.SetWorldIndex(worldIndex);
-        //    gen.CreatPools();
-        //}    
-    }
-
-    // Use this for initialization
+    
     void Start () {
         LevelEventSystem.StartLevel();
     }
-
-    //
-    // Update is called once per frame
+    
     void Update () {
         
     }

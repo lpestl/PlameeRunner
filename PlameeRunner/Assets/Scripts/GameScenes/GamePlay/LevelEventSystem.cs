@@ -8,6 +8,9 @@ public class LevelEventSystem : MonoBehaviour {
 
     public static EventHandlerVoid OnStartLevel;
     public static EventHandlerVoid OnGameOver;
+
+    public static EventHandlerVoid OnRetryLevel;
+    public static EventHandlerVoid OnBackMenu;
 #endregion
 
 #region Static call event
@@ -27,5 +30,20 @@ public class LevelEventSystem : MonoBehaviour {
         }
     }
     
+    public static void RetryLevel()
+    {
+        if (OnRetryLevel != null)
+        {
+            OnRetryLevel();
+        }
+    }
+
+    public static void BackMenu()
+    {
+        if (OnBackMenu != null)
+        {
+            OnBackMenu();
+        }
+    }
 #endregion
 }
